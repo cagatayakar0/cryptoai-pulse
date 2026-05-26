@@ -5,9 +5,10 @@ from google import genai
 # 1. System & Page Configuration
 st.set_page_config(page_title="CryptoAI-Pulse | Market Intelligence", page_icon="📊", layout="centered")
 
-# 2. AI Client Initialization
-GEMINI_API_KEY = "AIzaSyCEo-VlCyNEoEnN2vpCdOBqZkD10F2oWik"
-client = genai.Client(api_key=GEMINI_API_KEY)
+# 2. AI Client Initialization (Secured with Streamlit Secrets)
+import os
+os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+client = genai.Client()
 
 # Web Interface Header Section
 st.title("📊 CryptoAI-Pulse")
