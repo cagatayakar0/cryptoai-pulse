@@ -1,19 +1,23 @@
 import streamlit as st
 import requests
-from google import genai
+from google import google_genai
+import os
 
 # 1. System & Page Configuration
-st.set_page_config(page_title="CryptoAI-Pulse | Market Intelligence", page_icon="📊", layout="centered")
+st.set_page_config(
+    page_title="CryptoAI-Pulse | Market Intelligence", 
+    page_icon="📊", 
+    layout="centered"
+)
 
 # 2. AI Client Initialization (Secured with Streamlit Secrets)
-import os
 os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
-client = genai.Client()
+client = google_genai.Client()
 
 # Web Interface Header Section
 st.title("📊 CryptoAI-Pulse")
 st.subheader("Real-Time Data Analytics & AI Market Intelligence")
-st.write("This intelligence platform integrates live market endpoints with generative AI to deliver institutional-grade market analysis.")
+st.write("This intelligence platform integrates live market endpoints with generative AI to deliver clear and actionable market insights.")
 st.write("---")
 
 # 3. Live Data Fetching Function (CoinGecko API)
@@ -43,22 +47,29 @@ try:
 
     # 5. Professional Analysis Execution Button
     if st.button("📈 Execute AI Market Analysis"):
-        with st.spinner("Gemini is generating a comprehensive market report, please wait... 🤖"):
+        with st.spinner("Gemini is generating a sharp market report, please wait... 🤖"):
             
-            # Formulating the prompt to strictly generate institutional-grade English analysis
+            # Formulating the prompt for a clean, simplified, bullet-point English overview
             prompt = f"""
-            You are a Senior Crypto Quantitative Analyst and Macro Strategist. 
-            Analyze the following real-time financial metrics provided by the system:
-            - Bitcoin Spot Price: ${btc_price:,} USD
-            - 24-Hour Price Delta: {btc_change:.2f}%
+            You are an elite digital asset strategist and financial analyst. Your task is to analyze the provided real-time Bitcoin data and deliver a sharp, high-impact market overview suitable for a professional network like LinkedIn.
 
-            Based on this data, deliver an institutional-grade, formal financial market analysis report.
-            The report must cover the following critical areas:
-            1. Current Price Action Assessment
-            2. Market Psychology & Volume Dynamics Analysis (e.g., healthy consolidation, whale activity, or market momentum)
-            3. Short-term Strategic Outlook & Risk Mitigation Steps for Asset Allocators (clearly state that this is not financial advice)
+            Rules:
+            1. Strictly avoid dense banking jargon (e.g., 'idiosyncratic risk', 'abatement'). Keep it clean, direct, and understandable for everyone.
+            2. Structure the analysis using clear bullet points and bold headers. No long text walls.
+            3. Tone must be sharp, modern, professional, and insightful. Completely in English.
+
+            Market Data:
+            - Bitcoin Price: ${btc_price} USD
+            - 24h Change: {btc_change:.2f}%
+
+            Output Template Format (Follow this exactly, do not add extra text outside this format):
+            📊 **Bitcoin (BTC) Real-Time Market Assessment**
+
+            * **Price Action Momentum:** [Briefly interpret the price and 24h delta. Is it cooling off, breaking out, or consolidating?]
+            * **Market Psychology:** [Analyze the current sentiment based on the movement. Is this a healthy correction, minor profit-taking, or a strong risk signal?]
+            * **Short-Term Outlook:** [Provide a direct, 1-2 sentence tactical takeaway for asset allocators.]
             
-            Maintain a strictly professional, technical, and academic tone. Do NOT use emojis, social media hashtags (#), or refer to this as a social media 'post'. Output the report completely in professional English.
+            Disclaimer: Not financial advice.
             """
             
             response_ai = client.models.generate_content(
