@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-from google import google_genai
+from google import genai
 import os
 
 # 1. System & Page Configuration
@@ -12,7 +12,7 @@ st.set_page_config(
 
 # 2. AI Client Initialization (Secured with Streamlit Secrets)
 os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
-client = google_genai.Client()
+client = genai.Client()
 
 # Web Interface Header Section
 st.title("📊 CryptoAI-Pulse")
